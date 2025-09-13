@@ -114,6 +114,16 @@ usuarios.txt
 ```
 ⚠️ Nota: he añadido usuarios.txt al .gitignore para que no subas las contraseñas de prueba a GitHub 😉.
 
+## 🙍‍♂️ Archivo de usuarios
+
+El archivo se llama usuarios.txt y sigue la siguiente estructura:
+
+``` bash
+# nombre;contraseña
+example;example
+example2;example2
+```
+
 ``` yaml
 
 
