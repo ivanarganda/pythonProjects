@@ -1,19 +1,17 @@
 from sys import exit
 from game_room import init_game
-from utils import mostrar_menu_principal, generate_menu_items
+from utils import mostrar_menu_principal, generate_menu_items , check_session_user, logout_user
 from registro_login import init_registro_login
-
-dispatch = {
-    "1": lambda: init_game(),
-    "2": lambda: init_registro_login(),
-    "3": lambda: exit("👋 Adiós, hasta pronto!")
-}
-
-menu = generate_menu_items(mostrar_menu_principal())
-options = list(dispatch.keys())
 
 def main():
     while True:
+        menu = generate_menu_items(mostrar_menu_principal())
+        dispatch = {
+            "1": lambda: init_game(),
+            "2": lambda: init_registro_login() if not check_session_user() else logout_user(),
+            "3": lambda: exit("👋 Adiós, hasta pronto!")
+        }
+        options = list(dispatch.keys())
 
         print("--- Juego de Adivina el Número ---")
         print(menu)

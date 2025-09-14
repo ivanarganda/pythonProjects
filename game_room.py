@@ -3,7 +3,7 @@ import random
 
 menu = generate_menu_items(mostrar_menu_niveles())
 
-game_levels = generate_menu_items(juego_niveles())
+game_levels = juego_niveles()
 
 def init_game():
     global game_levels

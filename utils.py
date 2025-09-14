@@ -1,12 +1,72 @@
+def clear_screen():
+    import os
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def get_file_users():
+    import os
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(BASE_DIR, "usuarios.txt")
+
+def reiniciar_script():
+    import os
+    import sys
+    os.execv(sys.executable, ['python'] + sys.argv)
+
+def logout_user():
+    import os
+    SESSION_USER_FILE = generate_file_session_user()
+    if os.path.exists(SESSION_USER_FILE):
+        os.remove(SESSION_USER_FILE)
+        print("Has cerrado sesión exitosamente.")
+    else:
+        print("No hay ninguna sesión activa.")
+    return False
+
+def generate_file_session_user():
+    import os
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(BASE_DIR, "session_user.txt")
+
+def check_session_user():
+    import os
+    SESSION_USER_FILE = generate_file_session_user()
+    if os.path.exists(SESSION_USER_FILE):
+        with open(SESSION_USER_FILE, "r") as f:
+            content = f.read().strip()
+            if content:
+                return True
+    return False
+
+def get_session_user():
+    import os
+    SESSION_USER_FILE = generate_file_session_user()
+    if os.path.exists(SESSION_USER_FILE):
+        with open(SESSION_USER_FILE, "r") as f:
+            content = f.read().strip()
+            if content:
+                return content.split(";")[0]
+    return None
+
+def generate_token_session():
+    import uuid
+    return str(uuid.uuid4())
+
 def generate_menu_items(menu_dict):
     return "\n".join([f"{k}. {v}" for k, v in menu_dict.items()])
 def mostrar_menu_principal():
         
         return {
-            "1": "Jugar como invitado",
-            "2": "Jugar como usuario registrado",
+            "1": "Jugar como invitado" if not check_session_user() else "Continuar juego como " + get_session_user(),
+            "2": "Jugar como usuario registrado" if not check_session_user() else "Cerrar sesión de " + get_session_user(),
             "3": "Salir"
         }
+
+def mostrar_menu_login_registro():
+    return {
+        "1": "Iniciar sesión" if not check_session_user() else "Cerrar sesión",
+        "2": "Registrarse" if not check_session_user() else "Cambiar de usuario",
+        "3": "Volver al menú principal"
+    }
 
 def juego_niveles():
 
