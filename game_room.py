@@ -20,7 +20,6 @@ def init_game():
             break
         start_game(game_levels.get(str(op)))
     
-
 def start_game(level):
     min_ = level["min"]
     max_ = level["max"]

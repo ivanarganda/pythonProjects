@@ -30,7 +30,7 @@ def login_usuario():
                         # esperar para que se inicie sesion
                         time.sleep(1)
                     return True
-            print("Usuario o contraseña incorrectos. Inténtalo de nuevo.")
+            return False
     return False
 
 def init_registro_login():

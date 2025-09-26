@@ -51,6 +51,35 @@ def generate_token_session():
     import uuid
     return str(uuid.uuid4())
 
+def login():
+    import time
+    with open(get_file_users(), "r") as f:
+        usuarios = f.readlines()
+        while True:
+            username = input("Usuario: ").strip()
+            password = input("Contraseña: ").strip()
+            for usuario in usuarios:
+                user, pwd = usuario.strip().split(";")
+                if user == username and pwd == password:
+                    print(f"¡Bienvenido de nuevo, {username}!")
+                    with open(get_session_user(), "w") as session_file:
+                        session_file.write(f"{username};{generate_token_session()}")
+                        # actualizar el menú principal
+                        # esperar para que se inicie sesion
+                        time.sleep(1)
+                    return {
+                        "logged":True,
+                        "Message":f"Bienvenido {username}!!"
+                    }
+            return {
+                "logged":False,
+                "Message":"Usuario o contraseña incorrectos. Inténtalo de nuevo."
+            }
+    return {
+        "logged":False,
+        "Message":"Error inesperado en inicio de sesión."
+    }
+
 def generate_menu_items(menu_dict):
     return "\n".join([f"{k}. {v}" for k, v in menu_dict.items()])
 def mostrar_menu_principal():
