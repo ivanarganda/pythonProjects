@@ -10,6 +10,13 @@ class Database:
         self.db_path = db_path
         self.conn = None
         self.cursor = None
+        self.query = None
+
+    def get_db(self,g):
+        if "db" not in g:
+            g.db = sql.connect(DB_PATH, check_same_thread=False)
+            g.db.row_factory = sql.Row
+        return g.db
 
     def conect_DB(self):
         try:
@@ -24,6 +31,7 @@ class Database:
 
     def execute_query(self, query, params = ()):
         try:
+            self.query = query
             if params:
                 self.cursor.execute(query, params)
             else:
@@ -55,8 +63,13 @@ class Database:
 
         rows = self.cursor.fetchall()
 
-        self.conn.close()
-
         results = [dict(row) for row in rows]
 
         return results
+
+    def close_connection(self):
+        self.conn.close()
+
+    def get_query(self):
+        
+        return self.query
